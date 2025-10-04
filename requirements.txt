@@ -1,0 +1,16 @@
+This file lists the Python packages required for MediaNexus.
+These will be installed by Docker when the image is built.
+FastAPI framework for building the API
+fastapi
+
+Uvicorn for serving the FastAPI application
+uvicorn
+
+Pydantic for data validation (comes with FastAPI but good to specify)
+pydantic
+
+SQLAlchemy for database interaction (Object Relational Mapper)
+sqlalchemy
+
+Aiosqlite for asynchronous SQLite database access
+aiosqlite

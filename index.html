@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaNexus - All-in-One Media Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --brand-primary: #004225; /* British Racing Green */
+            --brand-secondary: #005A31;
+            --brand-accent: #34d399; /* Brighter Emerald Green for accents */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-primary); /* Main background is now green */
+            color: #d1d5db; /* gray-300 */
+        }
+        .sidebar-icon { stroke-width: 1.5; }
+        .card-bg { background-color: #00311b; } /* Darker green for cards */
+        .card-hover:hover { background-color: #003f23; }
+        .tab-active { color: var(--brand-accent); border-color: var(--brand-accent); }
+        .tab-inactive { color: #9ca3af; border-color: transparent; }
+        .btn-primary { background-color: #4b5563; } /* Buttons are gray */
+        .btn-primary:hover { background-color: #6b7280; }
+        .btn-primary:disabled { background-color: #374151; cursor: not-allowed; }
+        .text-brand { color: var(--brand-accent); }
+        .bg-brand-light { background-color: rgba(52, 211, 153, 0.1); }
+        .ring-brand { ring-color: var(--brand-accent); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #00311b; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Main Container -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-20 lg:w-64 bg-black/30 border-r border-green-900/50 flex flex-col items-center lg:items-start p-4 transition-all duration-300">
+            <div class="flex items-center gap-3 mb-10 px-2">
+                <!-- NEW LOGO -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-brand">
+                    <path d="M2 12 L7 4 L12 10 L17 4 L22 12 L17 20 L12 14 L7 20 L2 12 Z" />
+                </svg>
+                <h1 class="text-2xl font-bold hidden lg:block">MediaNexus</h1>
+            </div>
+            <nav class="flex flex-col gap-3 w-full">
+                <a href="#discover" class="flex items-center gap-4 p-3 rounded-lg bg-brand-light text-brand font-semibold" onclick="showTab('discover', this)"><i data-lucide="compass" class="sidebar-icon h-6 w-6"></i><span class="hidden lg:block">Discover</span></a>
+                <a href="#management" class="flex items-center gap-4 p-3 rounded-lg hover:bg-black/20 text-gray-400" onclick="showTab('management', this)"><i data-lucide="film" class="sidebar-icon h-6 w-6"></i><span class="hidden lg:block">Media Management</span></a>
+                <a href="#activity" class="flex items-center gap-4 p-3 rounded-lg hover:bg-black/20 text-gray-400" onclick="showTab('activity', this)"><i data-lucide="line-chart" class="sidebar-icon h-6 w-6"></i><span class="hidden lg:block">Activity</span></a>
+                <a href="#settings" class="flex items-center gap-4 p-3 rounded-lg hover:bg-black/20 text-gray-400" onclick="showTab('settings', this)"><i data-lucide="settings" class="sidebar-icon h-6 w-6"></i><span class="hidden lg:block">Settings</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <!-- Discover Page -->
+            <div id="discover" class="page-content p-4 md:p-8">
+                <h2 class="text-3xl font-bold mb-6">Discover Media</h2>
+                <div class="border-b border-green-900/50 mb-6">
+                    <nav class="flex -mb-px space-x-6">
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-active" onclick="showSubTab('discover', 'movies', this)">Movies</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive" onclick="showSubTab('discover', 'tv', this)">TV Shows</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive" onclick="showSubTab('discover', 'music', this)">Music</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive" onclick="showSubTab('discover', 'books', this)">Books</button>
+                    </nav>
+                </div>
+
+                <div class="sub-tab-content discover movies space-y-8">
+                    <div class="relative mb-8">
+                        <input type="text" placeholder="Search IMDb for a movie... e.g., Iron Man" class="w-full bg-black/30 border border-green-900/50 rounded-lg p-4 pl-12 text-lg focus:outline-none focus:ring-2 ring-brand">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <div class="card-bg rounded-lg p-6 flex flex-col md:flex-row gap-6">
+                        <img src="https://placehold.co/200x300/00311b/34d399?text=Iron+Man" alt="Iron Man Poster" class="w-full md:w-1/4 h-auto rounded-md object-cover">
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold">Iron Man <span class="text-gray-400 font-normal">(2008)</span></h3>
+                            <div class="flex items-center gap-4 my-2 text-sm text-gray-300">
+                                <span>PG-13</span><span>2h 6m</span>
+                                <span class="flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 text-yellow-400 fill-current"></i> 7.9/10 IMDb</span>
+                            </div>
+                            <p class="text-gray-400 mb-4">After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.</p>
+                            <button class="btn-primary text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i data-lucide="plus-circle" class="h-5 w-5"></i> Add to Library</button>
+                            <div class="mt-6 pt-4 border-t border-green-900/50">
+                                <h4 class="text-md font-semibold text-brand mb-3">Recommended by Gemini</h4>
+                                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+                                    <img src="https://placehold.co/100x150/00311b/34d399?text=Thor" class="rounded-md cursor-pointer hover:opacity-80 transition-opacity" title="Thor">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="sub-tab-content discover tv hidden"><p class="text-center text-gray-400 mt-10">TV Show discovery appears here.</p></div>
+                 <div class="sub-tab-content discover music hidden"><p class="text-center text-gray-400 mt-10">Music discovery appears here.</p></div>
+                 <div class="sub-tab-content discover books hidden"><p class="text-center text-gray-400 mt-10">Book discovery appears here.</p></div>
+            </div>
+            
+            <!-- Media Management Page -->
+            <div id="management" class="page-content p-4 md:p-8 hidden">
+                 <h2 class="text-3xl font-bold mb-6">Media Management</h2>
+                <div class="border-b border-green-900/50 mb-6">
+                    <nav class="flex -mb-px space-x-6">
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-active" onclick="showSubTab('management', 'movies', this)">Movies</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive" onclick="showSubTab('management', 'tv', this)">TV Shows</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive" onclick="showSubTab('management', 'music', this)">Music</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive" onclick="showSubTab('management', 'books', this)">Books</button>
+                    </nav>
+                </div>
+                <div class="sub-tab-content management movies">
+                    <div class="admin-view">
+                        <div class="overflow-x-auto card-bg rounded-lg">
+                            <table class="w-full text-left">
+                                <thead class="border-b border-green-900/50"><tr><th class="p-4 w-20">Artwork</th><th class="p-4">Title</th><th>Year</th><th>Quality</th><th>File Size</th><th>Profile</th><th>Release Group</th><th class="text-right p-4">Actions</th></tr></thead>
+                                <tbody>
+                                    <tr class="border-b border-green-900/50 hover:bg-black/20">
+                                        <td class="p-2"><img src="https://placehold.co/60x90/00311b/34d399?text=Poster" class="rounded-md"></td>
+                                        <td class="p-4 font-semibold">Iron Man</td><td>2008</td><td><span class="bg-yellow-500/10 text-yellow-400 px-2 py-1 text-xs rounded-full">BluRay-1080p</span></td><td>12.3 GB</td><td>#2 - WEB-DL (1080p)</td><td>SPARKS</td>
+                                        <td class="p-4 flex justify-end gap-2"><button onclick="showSearchModal(true)" class="p-2 rounded-md hover:bg-gray-600" title="Manual Search"><i data-lucide="search" class="h-5 w-5"></i></button><button class="p-2 rounded-md hover:bg-gray-600" title="Delete"><i data-lucide="trash-2" class="h-5 w-5 text-red-500"></i></button></td>
+                                    </tr>
+                                    <tr class="border-b border-green-900/50 hover:bg-black/20">
+                                        <td class="p-2"><img src="https://placehold.co/60x90/00311b/34d399?text=Poster" class="rounded-md"></td>
+                                        <td class="p-4 font-semibold">The Matrix</td><td>1999</td><td><span class="bg-green-500/10 text-green-400 px-2 py-1 text-xs rounded-full">BluRay-2160p</span></td><td>25.1 GB</td><td></td><td>Internal</td>
+                                        <td class="p-4 flex justify-end gap-2"><button onclick="showSearchModal(true)" class="p-2 rounded-md hover:bg-gray-600" title="Manual Search"><i data-lucide="search" class="h-5 w-5"></i></button><button class="p-2 rounded-md hover:bg-gray-600" title="Delete"><i data-lucide="trash-2" class="h-5 w-5 text-red-500"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                 <div class="sub-tab-content management tv hidden"><p class="text-center text-gray-400 mt-10">TV Show management appears here.</p></div>
+                 <div class="sub-tab-content management music hidden"><p class="text-center text-gray-400 mt-10">Music management appears here.</p></div>
+                 <div class="sub-tab-content management books hidden"><p class="text-center text-gray-400 mt-10">Book management appears here.</p></div>
+            </div>
+            
+            <!-- Activity Page -->
+            <div id="activity" class="page-content p-4 md:p-8 hidden">
+                 <h2 class="text-3xl font-bold mb-6">Activity</h2>
+                <div class="card-bg rounded-lg p-6">
+                    <p class="text-gray-400">Activity logs, history, and the download queue will appear here.</p>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page-content p-4 md:p-8 hidden">
+                 <h2 class="text-3xl font-bold mb-6">Settings</h2>
+                 <div class="border-b border-green-900/50 mb-6">
+                    <nav class="flex -mb-px space-x-6 overflow-x-auto">
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-active whitespace-nowrap" onclick="showSubTab('settings', 'general', this)">General</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive whitespace-nowrap" onclick="showSubTab('settings', 'clients', this)">Download Clients</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive whitespace-nowrap" onclick="showSubTab('settings', 'indexers', this)">Indexers</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive whitespace-nowrap" onclick="showSubTab('settings', 'profiles', this)">Profiles</button>
+                        <button class="px-1 py-3 border-b-2 font-medium text-lg tab-inactive whitespace-nowrap" onclick="showSubTab('settings', 'logs', this)">Logs</button>
+                    </nav>
+                </div>
+
+                <!-- GENERAL SETTINGS -->
+                <div class="sub-tab-content settings general space-y-8">
+                    <!-- API Keys & Services -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">API Keys & Services</h3>
+                        <div class="card-bg rounded-lg p-6 space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">Gemini AI API Key</label>
+                                <input type="password" value="AIzaSyB24fH8vy0YSsr1RFtlZWPLEArAWafN9eg" class="w-full bg-gray-900/50 border border-green-900/50 rounded-md p-2 focus:outline-none focus:ring-2 ring-brand">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- User Management -->
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <div><h3 class="text-xl font-semibold">User Management</h3><p class="text-gray-400">Add, edit, or remove users.</p></div>
+                            <button onclick="showUserModal(true)" class="btn-primary text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i data-lucide="user-plus" class="h-5 w-5"></i> Add User</button>
+                        </div>
+                        <div class="overflow-x-auto card-bg rounded-lg">
+                            <table class="w-full text-left">
+                                <thead class="border-b border-green-900/50"><tr><th class="p-4">Username</th><th>Role</th><th class="text-right p-4">Actions</th></tr></thead>
+                                <tbody id="users-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DOWNLOAD CLIENTS SECTION -->
+                <div class="sub-tab-content settings clients hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div><h3 class="text-xl font-semibold">Download Clients</h3><p class="text-gray-400">Manage your Usenet and Torrent clients.</p></div>
+                        <button onclick="showClientModal(true)" class="btn-primary text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i data-lucide="plus" class="h-5 w-5"></i> Add Client</button>
+                    </div>
+                    <div class="overflow-x-auto card-bg rounded-lg">
+                        <table class="w-full text-left">
+                            <thead class="border-b border-green-900/50"><tr><th class="p-4">Name</th><th>Type</th><th>Host</th><th class="text-center">Status</th><th class="text-right p-4">Actions</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- INDEXERS SECTION -->
+                <div class="sub-tab-content settings indexers hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div><h3 class="text-xl font-semibold">Indexers</h3><p class="text-gray-400">Manage and prioritize your Usenet and Torrent RSS feeds.</p></div>
+                        <button id="add-indexer-btn" onclick="showIndexerModal(true)" class="btn-primary text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i data-lucide="plus" class="h-5 w-5"></i> Add Indexer</button>
+                    </div>
+                    <div class="overflow-x-auto card-bg rounded-lg">
+                        <table class="w-full text-left">
+                            <thead class="border-b border-green-900/50"><tr><th class="p-4">Priority</th><th>Name</th><th>Type</th><th class="text-center">Status</th><th class="text-right p-4">Actions</th></tr></thead>
+                            <tbody id="indexers-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PROFILES SECTION -->
+                <div class="sub-tab-content settings profiles hidden">
+                     <h3 class="text-xl font-semibold mb-2">Staged Quality Profiles</h3>
+                     <p class="text-gray-400 mb-6">Define a sequence of quality profiles. MediaNexus will search from Stage 1 downwards until a match is found.</p>
+                     <div class="space-y-10">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div><h4 class="text-lg font-semibold mb-3">Movie Profiles</h4><div id="movie-profiles-container" class="space-y-3"></div><button onclick="addProfileStage('movie')" class="mt-3 btn-primary text-white font-bold py-2 px-3 rounded-lg flex items-center gap-2 text-sm"><i data-lucide="plus" class="h-4 w-4"></i> Add Stage</button></div>
+                            <div><h4 class="text-lg font-semibold mb-3">TV Show Profiles</h4><div id="tv-profiles-container" class="space-y-3"></div><button onclick="addProfileStage('tv')" class="mt-3 btn-primary text-white font-bold py-2 px-3 rounded-lg flex items-center gap-2 text-sm"><i data-lucide="plus" class="h-4 w-4"></i> Add Stage</button></div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 pt-6 border-t border-green-900/50">
+                            <div><h4 class="text-lg font-semibold mb-3">Music Profiles</h4><div id="music-profiles-container" class="space-y-3"></div><button onclick="addProfileStage('music')" class="mt-3 btn-primary text-white font-bold py-2 px-3 rounded-lg flex items-center gap-2 text-sm"><i data-lucide="plus" class="h-4 w-4"></i> Add Stage</button></div>
+                            <div><h4 class="text-lg font-semibold mb-3">eBook Profiles</h4><div id="ebook-profiles-container" class="space-y-3"></div><button onclick="addProfileStage('ebook')" class="mt-3 btn-primary text-white font-bold py-2 px-3 rounded-lg flex items-center gap-2 text-sm"><i data-lucide="plus" class="h-4 w-4"></i> Add Stage</button></div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 pt-6 border-t border-green-900/50">
+                            <div><h4 class="text-lg font-semibold mb-3">AudioBook Profiles</h4><div id="audiobook-profiles-container" class="space-y-3"></div><button onclick="addProfileStage('audiobook')" class="mt-3 btn-primary text-white font-bold py-2 px-3 rounded-lg flex items-center gap-2 text-sm"><i data-lucide="plus" class="h-4 w-4"></i> Add Stage</button></div>
+                        </div>
+                     </div>
+                      <button class="mt-8 btn-primary text-white font-bold py-2 px-4 rounded-lg">Save Changes</button>
+                </div>
+
+                <!-- LOGS SECTION -->
+                 <div class="sub-tab-content settings logs hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div><h3 class="text-xl font-semibold">System Logs</h3><p class="text-gray-400">View real-time logs for searches, downloads, and system events.</p></div>
+                        <div><button class="btn-primary text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i data-lucide="trash-2" class="h-5 w-5"></i> Clear Logs</button></div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                        <div class="relative flex-grow"><input type="text" placeholder="Filter logs..." class="w-full bg-black/30 border border-green-900/50 rounded-lg p-2 pl-10 focus:outline-none focus:ring-2 ring-brand"><i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5"></i></div>
+                        <select class="bg-black/30 border border-green-900/50 rounded-lg p-2 focus:outline-none focus:ring-2 ring-brand"><option>All Levels</option><option>Info</option><option>Success</option><option>Warning</option><option>Error</option></select>
+                    </div>
+                    <div class="card-bg rounded-lg p-4 font-mono text-sm h-[60vh] overflow-y-auto space-y-2 text-gray-300">
+                        <div><span class="text-gray-500">[2025-10-04 23:45:10]</span> <span class="text-blue-400">[INFO]</span> Starting search for "Iron Man (2008)"...</div>
+                        <div><span class="text-gray-500">[2025-10-04 23:45:11]</span> <span class="text-blue-400">[INFO]</span> Searching indexer: NZBPlanet</div>
+                        <div><span class="text-gray-500">[2025-10-04 23:45:12]</span> <span class="text-yellow-400">[WARN]</span> BroadcastTheNet failed to respond. Moving to next indexer.</div>
+                        <div><span class="text-gray-500">[2025-10-04 23:45:15]</span> <span class="text-blue-400">[INFO]</span> Download sent to client SABnzbd Main successfully.</div>
+                        <div><span class="text-gray-500">[2025-10-04 23:48:22]</span> <span class="text-green-400">[SUCCESS]</span> Download complete. File saved to /media/movies/Iron Man (2008)/Iron.Man.2008.1080p.mkv</div>
+                        <div><span class="text-gray-500">[2025-10-04 23:48:23]</span> <span class="text-blue-400">[INFO]</span> File Details: [Container: MKV], [Resolution: 1920x1080], [Size: 12.3 GB]</div>
+                        <div><span class="text-gray-500">[2025-10-04 23:50:01]</span> <span class="text-red-500">[ERROR]</span> Failed to connect to Gemini API. Reason: Connection timed out.</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="search-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden"></div>
+    <div id="indexer-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden"></div>
+    <div id="client-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden"></div>
+    <div id="user-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 hidden"></div>
+    
+    <script>
+        lucide.createIcons();
+        const profileState = { movie: [], tv: [], music: [], ebook: [], audiobook: [] };
+        const profileOptions = {
+            movie: ["UHD - Remux (2160p)", "WEB-DL (1080p)", "BluRay (1080p)", "WEB-DL (720p)", "DVD (480p)"],
+            tv: ["UHD - Remux (2160p)", "WEB-DL (1080p)", "BluRay (1080p)", "WEB-DL (720p)", "DVD (480p)"],
+            music: ["FLAC (Lossless)", "V0 (VBR)", "320 (CBR)", "AAC", "OGG"],
+            ebook: ["EPUB", "MOBI", "PDF", "AZW3", "CBR"],
+            audiobook: ["M4B (Chapterized)", "MP3 (320kbps)", "FLAC (Lossless)", "Audible (AAX)"]
+        };
+        let indexersState = [];
+        let usersState = [
+            { username: "admin", role: "Admin" },
+            { username: "guest", role: "User" }
+        ];
+
+        function showTab(tabId, element) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            document.getElementById(tabId)?.classList.remove('hidden');
+            document.querySelectorAll('aside nav a').forEach(a => {
+                a.classList.remove('bg-brand-light', 'text-brand', 'font-semibold');
+                a.classList.add('hover:bg-black/20', 'text-gray-400');
+            });
+            element.classList.add('bg-brand-light', 'text-brand', 'font-semibold');
+        }
+
+        function showSubTab(tabId, subTabId, element) {
+            if (!element || !element.parentElement) return;
+            document.querySelectorAll(`.sub-tab-content.${tabId}`).forEach(c => c.classList.add('hidden'));
+            const subTab = document.querySelector(`.sub-tab-content.${tabId}.${subTabId}`);
+            if (subTab) subTab.classList.remove('hidden');
+            
+            element.parentElement.querySelectorAll('button').forEach(b => {
+                b.classList.remove('tab-active'); b.classList.add('tab-inactive');
+            });
+            element.classList.add('tab-active');
+        }
+
+        function showSearchModal(show) { document.getElementById('search-modal').classList.toggle('hidden', !show); }
+        function showIndexerModal(show) { document.getElementById('indexer-modal').classList.toggle('hidden', !show); }
+        function showClientModal(show) { document.getElementById('client-modal').classList.toggle('hidden', !show); }
+        function showUserModal(show) { document.getElementById('user-modal').classList.toggle('hidden', !show); }
+        
+        function renderUsers() {
+            const tableBody = document.getElementById('users-table-body');
+            if (!tableBody) return;
+            tableBody.innerHTML = '';
+            usersState.forEach(user => {
+                const roleClass = user.role === 'Admin' ? 'bg-green-500/10 text-brand' : 'bg-gray-500/10 text-gray-300';
+                const row = document.createElement('tr');
+                row.className = 'border-b border-green-900/50 hover:bg-black/20';
+                row.innerHTML = `<td class="p-4 font-semibold">${user.username}</td><td><span class="${roleClass} px-2 py-1 text-xs rounded-full font-medium">${user.role}</span></td><td class="p-4 flex justify-end gap-2"><button class="p-2 rounded-md hover:bg-gray-600" title="Edit"><i data-lucide="pencil" class="h-5 w-5"></i></button><button class="p-2 rounded-md hover:bg-gray-600" title="Delete"><i data-lucide="trash-2" class="h-5 w-5 text-red-500"></i></button></td>`;
+                tableBody.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+        
+        function addProfileStage(type) {
+             if (profileState[type] && profileState[type].length < 5) {
+                profileState[type].push("");
+                renderProfileStages(type);
+            }
+        }
+        
+        function renderProfileStages(type) {
+            const container = document.getElementById(`${type}-profiles-container`);
+            if (!container) return;
+            container.innerHTML = '';
+            if(!profileState[type]) return;
+            profileState[type].forEach((profile, index) => {
+                const options = profileOptions[type].map(opt => `<option value="${opt}" ${opt === profile ? 'selected' : ''}>${opt}</option>`).join('');
+                const stageElement = document.createElement('div');
+                stageElement.className = 'flex items-center gap-2 bg-black/20 p-2 rounded-lg';
+                stageElement.innerHTML = `<span class="font-bold text-gray-400">#${index + 1}</span><select class="flex-1 bg-gray-700 border border-gray-600 rounded-md p-2 focus:outline-none focus:ring-2 ring-brand text-white" onchange="profileState['${type}'][${index}] = this.value"><option value="">Select a profile...</option>${options}</select><button onclick="removeProfileStage('${type}', ${index})" class="p-2 rounded-md hover:bg-gray-600"><i data-lucide="trash-2" class="h-5 w-5 text-red-500"></i></button>`;
+                container.appendChild(stageElement);
+            });
+            lucide.createIcons();
+        }
+
+        function removeProfileStage(type, index) {
+            if(profileState[type]) {
+                profileState[type].splice(index, 1);
+                renderProfileStages(type);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('discover', document.querySelector('aside nav a'));
+            showSubTab('discover', 'movies', document.querySelector('#discover nav button'));
+            showSubTab('management', 'movies', document.querySelector('#management nav button'));
+            showSubTab('settings', 'general', document.querySelector('#settings nav button'));
+            renderUsers();
+            ['movie', 'tv', 'music', 'ebook', 'audiobook'].forEach(type => {
+                addProfileStage(type)
+            });
+        });
+    </script>
+</body>
+</html>

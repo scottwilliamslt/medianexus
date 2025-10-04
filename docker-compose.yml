@@ -1,0 +1,45 @@
+# This is a Docker Compose file for setting up the MediaNexus application.
+# To run this, make sure you have Docker and Docker Compose installed.
+# Save this file as 'docker-compose.yml' in a new folder, then run 'docker-compose up -d' from that folder.
+
+version: '3.8'
+
+services:
+  medianexus:
+    # Change this to the final image name once it's built and pushed to a registry.
+    # For local builds, you can use 'medianexus:latest' if you build it with that tag.
+    image: your-repo/medianexus:latest
+    container_name: medianexus
+    
+    environment:
+      # Set the user and group IDs for file permissions.
+      # This ensures that files created by MediaNexus have the correct ownership on your host system.
+      # To find your IDs, run 'id -u' for PUID and 'id -g' for PGID in your Linux terminal.
+      - PUID=1000 # Your user ID
+      - PGID=1000 # Your group ID
+      
+      # Set your local timezone to ensure correct timestamps in logs and the application.
+      # A list of valid timezones can be found here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      - TZ=Etc/UTC # Your timezone, e.g., "America/New_York" or "Europe/London"
+
+    volumes:
+      # This is where MediaNexus will store its configuration, database, and logs.
+      # Change the path on the left ('./config') to the location where you want to store this data on your host machine.
+      - ./config:/config # Path to your config folder
+      
+      # Mount your media libraries.
+      # Change the paths on the left to match the locations of your media folders on your host machine.
+      - ./media/movies:/media/movies # Path to your movies folder
+      - ./media/tv:/media/tv # Path to your TV shows folder
+      - ./media/music:/media/music # Path to your music folder
+      - ./media/books:/media/books # Path to your books folder
+
+    ports:
+      # This maps the container's port to a port on your host machine.
+      # The format is <host_port>:<container_port>.
+      # You can access the MediaNexus UI by navigating to http://<your-server-ip>:9339
+      # Change the left side (9339) if you have another service using that port.
+      - 9339:9339
+
+    restart: unless-stopped
+
